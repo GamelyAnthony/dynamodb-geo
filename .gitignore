@@ -8,3 +8,7 @@ target/
 gen/
 out/
 .ply/config/deploy.*
+
+# Gradle files
+.gradle/
+build/
