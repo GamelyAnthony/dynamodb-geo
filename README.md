@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/CorkHounds/dynamodb-geo.svg?branch=master)](https://travis-ci.org/CorkHounds/dynamodb-geo)
+[![Build Status](https://travis-ci.org/rossica/dynamodb-geo.svg?branch=master)](https://travis-ci.org/rossica/dynamodb-geo)
 
-#Geo Library for Amazon DynamoDB
+# Geo Library for Amazon DynamoDB
 
 This library was forked from the [AWS geo library][geo-library-javadoc].
 
@@ -27,27 +27,27 @@ Benefit of this approach - Callers have the option to execute these queries in a
   * Bulk persistence
   * Large Item persistence strategy (limit on item size in dynamo)
 
-##Features
+## Features
 * **Box Queries:** Get a list of _GeoQueryRequest_ objects that will return items that fall within a pair of geo points that define a rectangle as projected onto a sphere.
 * **Radius Queries:** Get a list of _GeoQueryRequest_ objects that will return all of the items that are within a given radius of a geo point.
 * **Composite Queries:** Get a list of _GeoQueryRequest_ objects that will return all of the items that are within a given radius and has a property 'X'
 * **Easy Integration:** The library simply _decorates_ the provided _PutItemRequest_ and _QueryRequest_ with geo-data so you get to control the execution of queries. (multi-threaded, map-reduce jobs, etc)
 * **Customizable:** Geo column names and related configuration can be set in the _GeoConfig_ object
 
-##Getting Started
-###Setup Environment
+## Getting Started
+### Setup Environment
 1. **Sign up for AWS** - Before you begin, you need an AWS account. Please see the [AWS Account and Credentials][docs-signup] section of the developer guide for information about how to create an AWS account and retrieve your AWS credentials.
 2. **Download Geo Library for Amazon DynamoDB** - To download the code from GitHub, simply clone the repository by typing: `git clone https://github.com/Dash-Labs/dynamodb-geo.git`.
 
-##Building From Source
+## Building From Source
 Once you check out the code from GitHub, you can build it using [Ply](https://github.com/blangel/ply.git): `ply clean install`
 
-##Limitations
+## Limitations
 
-###High I/O needs
+### High I/O needs
 Geo query methods will return several queries. Depending on your configuration, this could be thousands of queries
 
-###Dataset density limitation
+### Dataset density limitation
 The Geohash used in this library is roughly centimeter precision. Therefore, the library is not suitable if your dataset has much higher density.
 
 ## Choosing geohash length based on km/m
@@ -162,9 +162,9 @@ Number of tries to find zip codes (base radius of 10 miles) with hashKey length 
 ** For Tonopah, all levels generated 26 queries!
 ** For Gypsum(CO)**, 10 miles generated 16 queries, 20 miles generated 30, 30 miles generated 45.
 
-##Reference
+## Reference
 
-###Amazon DynamoDB
+### Amazon DynamoDB
 * [Amazon DynamoDB][dynamodb]
 * [AWS Geo Library for Amazon DynamoDB] [dynamodb-query]
 
