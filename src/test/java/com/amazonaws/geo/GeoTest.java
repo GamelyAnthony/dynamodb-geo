@@ -3,7 +3,6 @@ package com.amazonaws.geo;
 import com.amazonaws.geo.model.GeoQueryRequest;
 import com.amazonaws.services.dynamodbv2.model.*;
 import com.dashlabs.dash.geo.s2.internal.S2Manager;
-import com.google.common.base.Optional;
 import com.google.common.geometry.S2LatLng;
 import com.google.common.geometry.S2LatLngRect;
 import org.junit.Test;
@@ -12,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -26,7 +26,7 @@ public class GeoTest {
         Geo geo = new Geo();
         try {
             List<GeoConfig> configs = new ArrayList<GeoConfig>();
-            configs.add(new GeoConfig(null, null, null, 0, Optional.<HashKeyDecorator>absent(), null));
+            configs.add(new GeoConfig(null, null, null, 0, Optional.<HashKeyDecorator>empty(), null));
             geo.putItemRequest(new PutItemRequest(), 0.0, 0.0, configs);
             fail("Should have failed as there are invalid fields");
         } catch (IllegalArgumentException e) {
@@ -119,7 +119,7 @@ public class GeoTest {
     public void getItemQueryInvalidFields() {
         Geo geo = new Geo();
         try {
-            geo.getItemQuery(new QueryRequest(), 0.0, 0.0, null, null, null, 0, Optional.<String>absent());
+            geo.getItemQuery(new QueryRequest(), 0.0, 0.0, null, null, null, 0, Optional.<String>empty());
             fail("Should have failed as there are invalid fields");
         } catch (IllegalArgumentException e) {
             //expected
@@ -146,7 +146,7 @@ public class GeoTest {
         when(s2Manager.generateGeohash(lat, longitude)).thenReturn(geohash);
         when(s2Manager.generateHashKey(geohash, config.getGeoHashKeyLength())).thenReturn(geohashKey);
 
-        QueryRequest withGeoProperties = geo.getItemQuery(query, lat, longitude, config, Optional.<String>absent());
+        QueryRequest withGeoProperties = geo.getItemQuery(query, lat, longitude, config, Optional.<String>empty());
         assertNotNull(withGeoProperties);
         assertEquals(query.getTableName(), withGeoProperties.getTableName());
         assertEquals(withGeoProperties.getKeyConditions().get(config.getGeoHashKeyColumn()), expectedGeoHashKeyCondition);
@@ -191,7 +191,7 @@ public class GeoTest {
     public void radiusQueryInvalidRadius() {
         Geo geo = new Geo();
         try {
-            geo.radiusQuery(new QueryRequest(), 0.0, 0.0, -5.0, null, null, null, 0, Optional.<String>absent());
+            geo.radiusQuery(new QueryRequest(), 0.0, 0.0, -5.0, null, null, null, 0, Optional.<String>empty());
             fail("Should have failed as there are invalid fields");
         } catch (IllegalArgumentException e) {
             //expected
@@ -229,7 +229,7 @@ public class GeoTest {
     public void rectangleQueryInvalidFields() {
         Geo geo = new Geo();
         try {
-            geo.rectangleQuery(new QueryRequest(), 0.0, 0.0, 0.0, 0.0, null, null, null, 0, Optional.<String>absent());
+            geo.rectangleQuery(new QueryRequest(), 0.0, 0.0, 0.0, 0.0, null, null, null, 0, Optional.<String>empty());
             fail("Should have failed as there are invalid fields");
         } catch (IllegalArgumentException e) {
             //expected
@@ -252,14 +252,14 @@ public class GeoTest {
         geoQueries.add(new QueryRequest().withLimit(100));
         S2LatLngRect latLngRect = new S2LatLngRect(S2LatLng.fromDegrees(minLat, minLongitude), S2LatLng.fromDegrees(maxLat, maxLongitude));
         when(s2Manager.getBoundingBoxForRectangleQuery(minLat, minLongitude, maxLat, maxLongitude)).thenReturn(latLngRect);
-        when(geoQueryHelper.generateGeoQueries(query, latLngRect, config, Optional.<String>absent())).thenReturn(geoQueries);
-        GeoQueryRequest geoQueryRequest = geo.rectangleQuery(query, minLat, minLongitude, maxLat, maxLongitude, config, Optional.<String>absent());
+        when(geoQueryHelper.generateGeoQueries(query, latLngRect, config, Optional.<String>empty())).thenReturn(geoQueries);
+        GeoQueryRequest geoQueryRequest = geo.rectangleQuery(query, minLat, minLongitude, maxLat, maxLongitude, config, Optional.<String>empty());
         assertNotNull(geoQueryRequest);
         assertNotNull(geoQueryRequest.getResultFilter());
         assertNotNull(geoQueryRequest.getQueryRequests());
         assertEquals(geoQueryRequest.getQueryRequests(), geoQueries);
         verify(s2Manager, times(1)).getBoundingBoxForRectangleQuery(minLat, minLongitude, maxLat, maxLongitude);
-        verify(geoQueryHelper, times(1)).generateGeoQueries(query, latLngRect, config, Optional.<String>absent());
+        verify(geoQueryHelper, times(1)).generateGeoQueries(query, latLngRect, config, Optional.<String>empty());
         verifyNoMoreInteractions(s2Manager, geoQueryHelper);
     }
 
@@ -276,7 +276,7 @@ public class GeoTest {
             builder.hashKeyDecorator(Optional.of(decorator));
             builder.compositeHashKeyColumn(Optional.of(compositeColumnName));
         }else{
-            builder.hashKeyDecorator(Optional.<HashKeyDecorator>absent());
+            builder.hashKeyDecorator(Optional.<HashKeyDecorator>empty());
         }
         return builder.build();
     }

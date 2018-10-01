@@ -4,15 +4,15 @@ import com.dashlabs.dash.geo.AbstractGeoQueryHelper;
 import com.dashlabs.dash.geo.model.GeohashRange;
 import com.dashlabs.dash.geo.s2.internal.S2Manager;
 import com.dashlabs.dash.geo.s3.model.GeoProperties;
-import com.google.common.base.Optional;
-import com.google.common.collect.ImmutableList;
 import com.google.common.geometry.S2CellUnion;
 import com.google.common.geometry.S2LatLngRect;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * User: blangel
@@ -44,7 +44,7 @@ public class GeoQueryHelper extends AbstractGeoQueryHelper {
                 queryRequests.add(new GeoProperties(hashKeyLength, geoHashKey, range.getRangeMin(), range.getRangeMax()));
             }
         }
-        return ImmutableList.copyOf(queryRequests);
+        return Collections.unmodifiableList(queryRequests);
     }
 
 }

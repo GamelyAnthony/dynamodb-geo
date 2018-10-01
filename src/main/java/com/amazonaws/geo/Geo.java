@@ -5,15 +5,13 @@ import com.amazonaws.geo.model.filters.GeoFilters;
 import com.dashlabs.dash.geo.model.filters.GeoFilter;
 import com.dashlabs.dash.geo.s2.internal.S2Manager;
 import com.amazonaws.services.dynamodbv2.model.*;
-import com.google.common.base.Optional;
 import com.google.common.geometry.S2LatLng;
 import com.google.common.geometry.S2LatLngRect;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.google.common.base.Preconditions.checkArgument;
+import java.util.Optional;
 
 /**
  * Created by mpuri on 3/24/14
@@ -282,5 +280,11 @@ public class Geo {
                 geoHashKeyColumn);
         checkArgument((geoHashColumn != null && geoHashColumn.length() > 0), "geoHashColumn cannot be empty: %s", geoHashColumn);
         checkArgument(geoHashKeyLength > 0, "geoHashKeyLength must be a positive number: %s", String.valueOf(geoHashKeyLength));
+    }
+
+    private void checkArgument(boolean condition, String message, Object param) {
+        if(!condition) {
+            throw new IllegalArgumentException(String.format(message, param));
+        }
     }
 }

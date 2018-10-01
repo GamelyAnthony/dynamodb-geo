@@ -6,9 +6,9 @@ import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.QueryRequest;
 import com.amazonaws.services.dynamodbv2.model.QueryResult;
 import com.dashlabs.dash.geo.model.filters.GeoFilter;
-import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -60,7 +60,7 @@ public class GeoQueryClient {
                 results.addAll(future.get());
             }
         }
-        return ImmutableList.copyOf(results);
+        return Collections.unmodifiableList(results);
     }
 
     /**

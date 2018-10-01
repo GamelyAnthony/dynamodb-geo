@@ -1,6 +1,6 @@
 package com.amazonaws.geo;
 
-import com.google.common.base.Optional;
+import java.util.Optional;
 
 /**
  * Created by mpuri on 3/24/14
@@ -45,8 +45,8 @@ public class GeoConfig {
         this.geoHashKeyColumn = geoHashKeyColumn;
         this.geoHashColumn = geoHashColumn;
         this.geoHashKeyLength = geoHashKeyLength;
-        this.hashKeyDecorator = hashKeyDecorator == null ? Optional.<HashKeyDecorator>absent() : hashKeyDecorator;
-        this.compositeHashKeyColumn = compositeHashKeyColumn == null ? Optional.<String>absent() : compositeHashKeyColumn;
+        this.hashKeyDecorator = hashKeyDecorator == null ? Optional.<HashKeyDecorator>empty() : hashKeyDecorator;
+        this.compositeHashKeyColumn = compositeHashKeyColumn == null ? Optional.<String>empty() : compositeHashKeyColumn;
     }
 
     public String getGeoIndexName() {

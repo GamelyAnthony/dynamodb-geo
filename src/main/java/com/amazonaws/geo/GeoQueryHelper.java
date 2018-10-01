@@ -7,14 +7,14 @@ import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
 import com.amazonaws.services.dynamodbv2.model.Condition;
 import com.amazonaws.services.dynamodbv2.model.QueryRequest;
-import com.google.common.base.Optional;
-import com.google.common.collect.ImmutableList;
 import com.google.common.geometry.S2LatLngRect;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Created by mpuri on 3/25/14
@@ -79,7 +79,7 @@ public class GeoQueryHelper extends AbstractGeoQueryHelper {
                 queryRequests.add(queryRequest);
             }
         }
-        return ImmutableList.copyOf(queryRequests);
+        return Collections.unmodifiableList(queryRequests);
     }
 
     /**
