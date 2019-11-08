@@ -18,9 +18,9 @@ import java.util.Optional;
 
 /**
  * Created by mpuri on 3/25/14
- * 
- * Corkhounds.com altered this class to add copy over the FilterExpression and 
- * Expression Attributes as necessary when building a QueryRequest. 
+ *
+ * Corkhounds.com altered this class to add copy over the FilterExpression and
+ * Expression Attributes as necessary when building a QueryRequest.
  */
 public class GeoQueryHelper extends AbstractGeoQueryHelper {
 
@@ -67,8 +67,8 @@ public class GeoQueryHelper extends AbstractGeoQueryHelper {
                 keyConditions.put(config.getGeoHashKeyColumn(), geoHashKeyCondition);
 
                 //generate the geo hash range
-                AttributeValue minRange = new AttributeValue().withN(Long.toString(range.getRangeMin()));
-                AttributeValue maxRange = new AttributeValue().withN(Long.toString(range.getRangeMax()));
+                AttributeValue minRange = new AttributeValue().withN(Long.toUnsignedString(range.getRangeMin()));
+                AttributeValue maxRange = new AttributeValue().withN(Long.toUnsignedString(range.getRangeMax()));
 
                 Condition geoHashCondition = new Condition().withComparisonOperator(ComparisonOperator.BETWEEN)
                         .withAttributeValueList(minRange, maxRange);

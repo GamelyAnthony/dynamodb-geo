@@ -109,18 +109,13 @@ public class S2Manager {
     }
 
     public long generateHashKey(long geohash, int hashKeyLength) {
-        if (geohash < 0) {
-            // Counteract "-" at beginning of geohash.
-            hashKeyLength++;
-        }
-
-        String geohashString = String.valueOf(geohash);
+        String geohashString = Long.toUnsignedString(geohash);
         long denominator = (long) Math.pow(10, geohashString.length() - hashKeyLength);
         if (denominator ==
                 0) { //  can happen if geohashString.length() < geohash. Querying with a lat/lng of 0.0 can create this situation.
             return geohash;
         }
-        return geohash / denominator;
+        return Long.divideUnsigned(geohash, denominator);
     }
 
     /**
