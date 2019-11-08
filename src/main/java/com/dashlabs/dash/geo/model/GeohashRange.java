@@ -23,8 +23,13 @@ public class GeohashRange {
 
 
     public GeohashRange(long range1, long range2) {
-        this.rangeMin = Math.min(range1, range2);
-        this.rangeMax = Math.max(range1, range2);
+        if (Long.compareUnsigned(range1, range2) < 0) {
+            this.rangeMin = range1;
+            this.rangeMax = range2;
+        } else {
+            this.rangeMin = range2;
+            this.rangeMax = range1;
+        }
     }
 
     public boolean tryMerge(GeohashRange range) {
@@ -90,19 +95,14 @@ public class GeohashRange {
         long minHashKey = s2Manager.generateHashKey(rangeMin, hashKeyLength);
         long maxHashKey = s2Manager.generateHashKey(rangeMax, hashKeyLength);
 
-        long denominator = (long) Math.pow(10, String.valueOf(rangeMin).length() - String.valueOf(minHashKey).length());
+        long denominator = (long) Math.pow(10, Long.toUnsignedString(rangeMin).length() - Long.toUnsignedString(minHashKey).length());
 
         if (minHashKey == maxHashKey) {
             result.add(this);
         } else {
-            for (long l = minHashKey; l <= maxHashKey; l++) {
-                if (l > 0) {
-                    result.add(new GeohashRange(l == minHashKey ? rangeMin : l * denominator,
-                            l == maxHashKey ? rangeMax : (l + 1) * denominator - 1));
-                } else {
-                    result.add(new GeohashRange(l == minHashKey ? rangeMin : (l - 1) * denominator + 1,
-                            l == maxHashKey ? rangeMax : l * denominator));
-                }
+            for (long l = minHashKey; Long.compareUnsigned(l, maxHashKey) <= 0; l++) {
+                result.add(new GeohashRange(l == minHashKey ? rangeMin : l * denominator,
+                        l == maxHashKey ? rangeMax : (l + 1) * denominator - 1));
             }
         }
 
